@@ -1,4 +1,9 @@
-def determinant(A: list[list[float]], J: list[int], i: int) -> float:
+def determinant(A: list[list[float]], J: list[int] = None, i: int = None) -> float:
+    if J is None:
+        J = [*range(len(A))]
+    if i is None:
+        i = 0
+
     if len(J) == 1:
         return A[i][J[0]]
     else:
@@ -13,10 +18,13 @@ def determinant(A: list[list[float]], J: list[int], i: int) -> float:
 
 
 if __name__ == '__main__':
+    TITLE = '<< Програма для знаходження визначника матриці >>'
     SIZE_PROMPT = 'Введіть розмір N матриці A:'
     ELEMENTS_PROMPT = 'Введіть N рядків по N елементів, розділених пробілами:'
     ERROR_PROMPT = 'Введено недостатньо елементів рядка: {} < {}'
-    OUTPUT_PROMPT = 'Визначник D = {:g}'
+    OUTPUT_PROMPT = 'Визначник: D = {:g}'
+
+    print(TITLE + '\n')
 
     print(SIZE_PROMPT)
     n = int(input())
