@@ -33,4 +33,3 @@ if __name__ == '__main__':
 
         det = determinant(A, [*range(n)], 0)
         print(OUTPUT_PROMPT.format(det))
-
