@@ -16,7 +16,7 @@ if __name__ == '__main__':
     SIZE_PROMPT = 'Введіть розмір N матриці A:'
     ELEMENTS_PROMPT = 'Введіть N рядків по N елементів, розділених пробілами:'
     ERROR_PROMPT = 'Введено недостатньо елементів рядка: {} < {}'
-    OUTPUT_PROMPT = 'Детермінант D = {:g}'
+    OUTPUT_PROMPT = 'Визначник D = {:g}'
 
     print(SIZE_PROMPT)
     n = int(input())
