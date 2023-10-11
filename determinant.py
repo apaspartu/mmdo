@@ -37,5 +37,5 @@ if __name__ == '__main__':
                 quit()
             A.append(row)
 
-        det = determinant(A, [*range(n)], 0)
+        det = determinant(A)
         print(OUTPUT_PROMPT.format(det))
