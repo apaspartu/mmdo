@@ -1,8 +1,6 @@
-def determinant(A: list[list[float]], J: list[int] = None, i: int = None) -> float:
+def determinant(A: list[list[float]], J: list[int] = None, i: int = 0) -> float:
     if J is None:
-        J = [*range(len(A))]
-    if i is None:
-        i = 0
+        J = list(range(len(A)))
 
     if len(J) == 1:
         return A[i][J[0]]
