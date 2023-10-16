@@ -1,31 +1,21 @@
-def transpose(A: list[list[float]], m: int, n: int) -> list[list[float]]:
-    T = [[0.0 for _ in range(m)] for _ in range(n)]
-    for i in range(m):
+def gauss_jordan(A: list[list[float]], b: list[float]) -> list[float]:
+    n = len(A)
+    C = [[A[i][j] for j in range(n)] for i in range(n)]
+    x = b[:]
+
+    for i in range(n):
+        d = C[i][i]
         for j in range(n):
-            T[j][i] = A[i][j]
-    return T
+            C[i][j] = C[i][j] / d
+        x[i] = x[i] / d
 
-
-def gauss_jordan(A: list[list[float]], B: list[list[float]]) -> list[list[float]]:
-    m_a = len(A)
-    n_b = len(B[0])
-    for i in range(m_a):
-        d = A[i][i]
-        for j in range(m_a):
-            A[i][j] = A[i][j] / d
-
-        for j in range(n_b):
-            B[i][j] = B[i][j] / d
-
-        for m in range(m_a):
+        for m in range(n):
             if m != i:
-                p = A[m][i]
-                for j in range(m_a):
-                    A[m][j] = A[m][j] - p * A[i][j]
-
-                for j in range(n_b):
-                    B[m][j] = B[m][j] - p * B[i][j]
-    return B
+                p = C[m][i]
+                for j in range(n):
+                    C[m][j] = C[m][j] - p * C[i][j]
+                x[m] = x[m] - p * x[i]
+    return x
 
 
 if __name__ == '__main__':
@@ -34,6 +24,7 @@ if __name__ == '__main__':
     ELEMENTS_PROMPT = 'Введіть N рядків по N елементів, розділених пробілами:'
     FREE_VAR_PROMPT = 'Введіть елементи стовпця вільних змінних, розділені пробілами:'
     ERROR_PROMPT = 'Введено недостатньо елементів: {} < {}'
+    ZERO_DIVISION = "Дана система рівнянь не сумісна і не має розв'язків."
     OUTPUT_PROMPT = "Розв'язок системи:"
 
     print(TITLE + '\n')
@@ -52,15 +43,16 @@ if __name__ == '__main__':
             A.append(row)
 
         print(FREE_VAR_PROMPT)
-        free_vars = list(map(float, input().split()))
+        b = list(map(float, input().split()))
 
-        b = transpose([free_vars], 1, len(free_vars))
         if len(b) != len(A):
             print(ERROR_PROMPT.format(len(b), len(A)))
             quit()
 
-        X = gauss_jordan(A, b)
-
-        solution = [f'x{i + 1} = {x}' for i, x in enumerate(*transpose(X, len(X), 1))]
-
-        print(OUTPUT_PROMPT, *solution, sep='\n')
+        try:
+            X = gauss_jordan(A, b)
+        except ZeroDivisionError:
+            print(ZERO_DIVISION)
+        else:
+            solution = [f'x{i + 1} = {x:zg}' for i, x in enumerate(X)]
+            print(OUTPUT_PROMPT, *solution, sep='\n')

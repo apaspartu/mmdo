@@ -1,18 +1,23 @@
-def determinant(A: list[list[float]], J: list[int] = None, i: int = 0) -> float:
-    if J is None:
-        J = list(range(len(A)))
-
-    if len(J) == 1:
-        return A[i][J[0]]
-    else:
-        det = 0
-        for p in range(len(J)):
-            j = J[p]
-            K = [k for k in J if k != j]
-            minor = determinant(A, K, i + 1)
-            c = ((-1) ** p) * minor
-            det += A[i][j] * c
-        return det
+def determinant(A: list[list[float]]) -> float:
+    n = len(A)
+    B = [[A[i][j] for j in range(n)] for i in range(n)]
+    d = 1
+    for i in range(n):
+        k = B[i][i]
+        if k == 0:
+            return 0
+        d *= k
+        for j in range(n):
+            B[i][j] = B[i][j] / k
+        for m in range(n):
+            if m != i:
+                r = B[m][i]
+                for j in range(n):
+                    B[m][j] = B[m][j] - r * B[i][j]
+    p = 1
+    for i in range(n):
+        p *= B[i][i]
+    return p * d
 
 
 if __name__ == '__main__':
@@ -20,7 +25,7 @@ if __name__ == '__main__':
     SIZE_PROMPT = 'Введіть розмір N матриці A:'
     ELEMENTS_PROMPT = 'Введіть N рядків по N елементів, розділених пробілами:'
     ERROR_PROMPT = 'Введено недостатньо елементів рядка: {} < {}'
-    OUTPUT_PROMPT = 'Визначник: D = {:g}'
+    OUTPUT_PROMPT = 'Визначник: D = {:zg}'
 
     print(TITLE + '\n')
 
