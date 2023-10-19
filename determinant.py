@@ -5,7 +5,7 @@ def determinant(A: list[list[float]]) -> float:
     for i in range(n):
         k = B[i][i]
         if k == 0:
-            return 0
+            k = k + 0.000001
         d *= k
         for j in range(n):
             B[i][j] = B[i][j] / k

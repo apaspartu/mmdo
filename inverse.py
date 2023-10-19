@@ -5,6 +5,9 @@ def inverse(A: list[list[float]]) -> list[list[float]]:
 
     for i in range(n):
         d = B[i][i]
+        if d == 0:
+            d = d + 0.000001
+
         for j in range(n):
             B[i][j] = B[i][j] / d
         for j in range(n):
@@ -50,4 +53,4 @@ if __name__ == '__main__':
         else:
             print(OUTPUT_PROMPT)
             for row in R:
-                print(*row)
+                print(*(f'{i:.3f}' for i in row))

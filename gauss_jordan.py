@@ -5,6 +5,9 @@ def gauss_jordan(A: list[list[float]], b: list[float]) -> list[float]:
 
     for i in range(n):
         d = C[i][i]
+        if d == 0:
+            d = d + 0.000001
+
         for j in range(n):
             C[i][j] = C[i][j] / d
         x[i] = x[i] / d
