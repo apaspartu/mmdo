@@ -1,4 +1,7 @@
-def determinant(A: list[list[float]]) -> float:
+from helpers import get_size, get_matrix, Matrix
+
+
+def determinant(A: Matrix) -> float:
     n = len(A)
     B = [[A[i][j] for j in range(n)] for i in range(n)]
     d = 1
@@ -21,26 +24,14 @@ def determinant(A: list[list[float]]) -> float:
 
 
 if __name__ == '__main__':
-    TITLE = '<< Програма для знаходження визначника матриці >>'
-    SIZE_PROMPT = 'Введіть розмір N матриці A:'
-    ELEMENTS_PROMPT = 'Введіть N рядків по N елементів, розділених пробілами:'
-    ERROR_PROMPT = 'Введено недостатньо елементів рядка: {} < {}'
-    OUTPUT_PROMPT = 'Визначник: D = {:zg}'
+    print('<< Програма для знаходження визначника матриці >>' + '\n')
 
-    print(TITLE + '\n')
+    print('Введіть розмір N матриці A:')
+    n = get_size()
 
-    print(SIZE_PROMPT)
-    n = int(input())
+    print('Введіть N рядків по N елементів, розділених пробілами:')
+    A = get_matrix(n, n)
 
-    if n > 0:
-        print(ELEMENTS_PROMPT)
-        A = []
-        for _ in range(n):
-            row = list(map(float, input().split()))
-            if len(row) < n:
-                print(ERROR_PROMPT.format(len(row), n))
-                quit()
-            A.append(row)
+    det = determinant(A)
 
-        det = determinant(A)
-        print(OUTPUT_PROMPT.format(det))
+    print(f'Визначник: D = {det:zg}')

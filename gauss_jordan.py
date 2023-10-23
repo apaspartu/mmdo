@@ -1,4 +1,7 @@
-def gauss_jordan(A: list[list[float]], b: list[float]) -> list[float]:
+from helpers import get_size, get_vector, get_matrix, Vector, Matrix
+
+
+def gauss_jordan(A: Matrix, b: Vector) -> Vector:
     n = len(A)
     C = [[A[i][j] for j in range(n)] for i in range(n)]
     x = b[:]
@@ -22,40 +25,18 @@ def gauss_jordan(A: list[list[float]], b: list[float]) -> list[float]:
 
 
 if __name__ == '__main__':
-    TITLE = "<< Програма для розв'язування систем лінійних рівнянь методом Гауса-Жордана >>"
-    SIZE_PROMPT = 'Введіть розмір N матриці A:'
-    ELEMENTS_PROMPT = 'Введіть N рядків по N елементів, розділених пробілами:'
-    FREE_VAR_PROMPT = 'Введіть елементи стовпця вільних змінних, розділені пробілами:'
-    ERROR_PROMPT = 'Введено недостатньо елементів: {} < {}'
-    ZERO_DIVISION = "Дана система рівнянь не сумісна і не має розв'язків."
-    OUTPUT_PROMPT = "Розв'язок системи:"
+    print("<< Програма для розв'язування систем лінійних рівнянь методом Гауса-Жордана >>" + '\n')
 
-    print(TITLE + '\n')
+    print('Введіть розмір N матриці A:')
+    n = get_size()
 
-    print(SIZE_PROMPT)
-    n = int(input())
+    print('Введіть N рядків по N елементів, розділених пробілами:')
+    A = get_matrix(n, n)
 
-    if n > 0:
-        print(ELEMENTS_PROMPT)
-        A = []
-        for _ in range(n):
-            row = list(map(float, input().split()))
-            if len(row) < n:
-                print(ERROR_PROMPT.format(len(row), n))
-                quit()
-            A.append(row)
+    print('Введіть елементи стовпця вільних змінних, розділені пробілами:')
+    b = get_vector(n)
 
-        print(FREE_VAR_PROMPT)
-        b = list(map(float, input().split()))
+    X = gauss_jordan(A, b)
 
-        if len(b) != len(A):
-            print(ERROR_PROMPT.format(len(b), len(A)))
-            quit()
-
-        try:
-            X = gauss_jordan(A, b)
-        except ZeroDivisionError:
-            print(ZERO_DIVISION)
-        else:
-            solution = [f'x{i + 1} = {x:zg}' for i, x in enumerate(X)]
-            print(OUTPUT_PROMPT, *solution, sep='\n')
+    solution = [f'x{i + 1} = {x:zg}' for i, x in enumerate(X)]
+    print("Розв'язок системи:", *solution, sep='\n')
